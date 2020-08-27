@@ -1,0 +1,113 @@
+.just {
+    width: 100px;
+    display: block;
+    margin-bottom: 40px;
+}
+.second{
+    color: orange;
+    font-size: 20px;
+}
+#gallery{
+    display: block;
+    width: 500px;
+    height: 500px;
+    margin: 0 auto;
+}
+.wrapper-for-counter{
+    height: 300px;
+    background-color: palegreen;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.first-btn{
+    background-color: purple;
+    margin-right: 100px;
+}
+.second-btn{
+    background-color: green;
+   }
+.first-btn,.second-btn{
+    width: 200px;
+    height: 100px;
+    font-size: xx-large;
+}
+.first-btn:focus,.second-btn:focus{
+    background-color: oldlace;
+    border: 5px solid black;
+}
+.value-cllas{
+    color: chartreuse;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: xx-large;
+    width: 100px;
+    height: 100px;
+    margin-right: 100px;
+    border-radius: 50%;
+    background-color: hotpink;
+}
+.input-class{
+    background-color: cornflowerblue;
+    border: 5px solid green;
+    width: 500px;
+    height: 300px;
+}
+.input-class::placeholder{
+    color: orange;
+    font-size: 50px;
+    text-align: center;
+}
+.h-class{
+    padding-left: 70px;
+    color: green;
+    font-size: 24px;
+}
+.h-class__span{
+    color: orange;
+    font-size: 50px;
+}
+#validation-input {
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+    margin-bottom: 100px;
+    width: 300px;
+    height: 150px;
+    font-size: 40px;
+    color: palegreen;
+    background-color: rgb(241, 190, 240);
+    border: 8px solid #bdbdbd;
+  }
+  #validation-input::placeholder{
+      color: royalblue;
+  }
+  
+  #validation-input.valid {
+    border-color: #4caf50;
+  }
+  
+  #validation-input.invalid {
+    border-color: #f44336;
+  }
+  .input-last{
+      display: block;
+      margin: 0 auto;
+      width: 400px;
+      height: 150px;
+      background-color: seagreen;
+  }
+  .span-last{
+      display: block;
+      margin: 0 auto;
+      text-align: center;
+      padding: 3% 0;
+      width: 150px;
+      height: 150px;
+      font-size: 20px;
+      background-color: seagreen;
+}
+.span-last__change{
+    background-color: rgb(191, 223, 205);
+}
