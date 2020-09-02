@@ -24,67 +24,63 @@ console.log(jsGalerry);
 jsGalerry.addEventListener('click', handleClickPhoto);
 
 function handleClickPhoto(event) {
-    let target = event.target;
-    const getDataHref = target.dataset.source;
+
+  let target = event.target;
+
   event.preventDefault();
   const baseEvent = event;
   const readyDiv = document.querySelector('.js-lightbox');
   const closeSlider = document.querySelector('button');
   const closeByHtml = document.querySelector('html');
   const addContentInSlider = document.querySelector(".lightbox__image");
-
-  const objectLi = target.parentNode.parentNode.parentNode.childNodes;
-  const ArrayObjectLi = Array.from(objectLi);
   
-  
-  const addPicture = () => {
+  const removeSet = () => {
+    target = event.target;
     readyDiv.classList.remove('is-open');
     addContentInSlider.removeAttribute("src");
     addContentInSlider.removeAttribute("alt");
   };
 
-  const addPictureEvent = () => {
-    readyDiv.classList.remove('is-open');
-    addContentInSlider.removeAttribute("src");
-    addContentInSlider.removeAttribute("alt");
+  const AddPhoto = () => {
+    readyDiv.classList.add('is-open');
+    addContentInSlider.setAttribute("src",target.dataset.source);
+    addContentInSlider.setAttribute("alt",target.alt);
   };
 
-  readyDiv.addEventListener('click', addPictureEvent);
+  const refreshSetInSlider = () => {
+    addContentInSlider.removeAttribute("src");
+    addContentInSlider.removeAttribute("alt");
+    addContentInSlider.setAttribute("src",target.dataset.source);
+    addContentInSlider.setAttribute("alt",target.alt);
+  };
 
-  closeSlider.addEventListener('click', addPictureEvent);
+  readyDiv.addEventListener('click', removeSet);
+
+  closeSlider.addEventListener('click', removeSet);
   
   if (target.nodeName === "IMG"){
-    readyDiv.classList.add('is-open');
-    let addAltText = target.alt;
-    const getDataHref = target.dataset.source;
-    addContentInSlider.setAttribute("src",getDataHref);
-    addContentInSlider.setAttribute("alt",addAltText);
+    AddPhoto();
     closeByHtml.addEventListener("keyup", event => {
 
         if(event.code === "Escape"){
-            addPicture();  
+            removeSet();  
         }
         if(event.code === "ArrowRight"){
-    
-             ArrayObjectLi.map((elem,index,array) => {
-                if(target.parentNode.parentNode.firstChild.href === elem.firstChild.href){
-                addContentInSlider.removeAttribute("src");
-                addContentInSlider.removeAttribute("alt");
-                const {source} = array[index+1].firstChild.firstChild.dataset;
-                addContentInSlider.setAttribute("src",source);
-                }
-                })
+          refreshSetInSlider();
+          const targetNext = target.parentNode.parentNode.nextSibling.firstChild.firstChild;
+          target = targetNext;
+    if(!target.parentNode.parentNode.nextSibling){
+      target  = target.parentNode.parentNode.parentNode.firstChild.firstChild.firstChild;
+    }
+
         }
         if(event.code === "ArrowLeft"){
-    
-            ArrayObjectLi.map((elem,index,array) => {
-                if(target.parentNode.parentNode.firstChild.href === elem.firstChild.href){
-                    addContentInSlider.removeAttribute("src");
-                    addContentInSlider.removeAttribute("alt");
-                    const {source} = array[index-1].firstChild.firstChild.dataset;
-                    addContentInSlider.setAttribute("src",source);
-                }
-                })
+          const targetPrew = target.parentNode.parentNode.previousSibling.firstChild.firstChild;
+          target = targetPrew;
+          refreshSetInSlider();
+          if(!target.parentNode.parentNode.previousSibling){
+            target  = target.parentNode.parentNode.parentNode.lastChild.lastChild.lastChild;
+          }
         }
       });
   }
@@ -103,4 +99,4 @@ function handleClickPhoto(event) {
 //  будет хорошей практикой по работе с событиями.
 // 7) Закрытие модального окна по клику на div.lightbox__overlay. +
 // 8) Закрытие модального окна по нажатию клавиши ESC.  +
-// 9) Пролистывание изображений галереи в открытом модальном окне клавишами "влево" и "вправо".
+// 9) Пролистывание изображений галереи в открытом модальном окне клавишами "влево" и "вправо". +
