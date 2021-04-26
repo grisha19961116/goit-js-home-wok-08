@@ -31,6 +31,7 @@ const addContentInSlider = document.querySelector(".lightbox__image");
 
 const AddPhoto = () => {
   readyDiv.classList.add("is-open");
+  readyDiv.classList.add("is-open");
   addContentInSlider.removeAttribute("src");
   addContentInSlider.removeAttribute("alt");
   addContentInSlider.setAttribute("src", target.dataset.source);
@@ -43,7 +44,12 @@ const refreshSetInSlider = () => {
   addContentInSlider.alt = img.alt;
 };
 
-const handleKeyupPhoto = (e) => {
+function handleKeyupPhoto(e) {
+  if (e.code === "Escape") {
+    removeKeyupListener();
+    return;
+  }
+
   if (e.code === "ArrowRight") {
     if (id === quantityImg) {
       id = 0;
@@ -63,34 +69,27 @@ const handleKeyupPhoto = (e) => {
     id -= 1;
     refreshSetInSlider();
   }
-};
+}
 
-const removeImgAndListener = () => {
+function removeKeyupListener() {
   readyDiv.classList.remove("is-open");
-  closeByHtml.removeEventListener("keyup", handleKeyupPhoto);
-  addContentInSlider.src = "";
-  addContentInSlider.alt = "";
-};
+  closeByHtml.removeEventListener("keyup", handleKeyupPhoto, false);
+}
 
-const handleClickPhoto = (e) => {
+function handleClickPhoto(e) {
   e.preventDefault();
   target = e.target;
 
-  closeByHtml.addEventListener("keyup", (e) => {
-    if (e.code === "Escape") {
-      return removeImgAndListener();
-    }
-    handleKeyupPhoto(e, removeImgAndListener);
-  });
-  readyDiv.addEventListener("click", removeImgAndListener);
-  closeSlider.addEventListener("click", removeImgAndListener);
+  closeByHtml.addEventListener("keyup", handleKeyupPhoto, false);
+  readyDiv.addEventListener("click", removeKeyupListener);
+  closeSlider.addEventListener("click", removeKeyupListener);
 
   if (target.nodeName !== "IMG") return;
 
   id = Number(target.id);
 
   AddPhoto();
-};
+}
 
 jsGallery.append(...createPhotoByUrl);
 
