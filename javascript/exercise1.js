@@ -1,102 +1,112 @@
-import galleryItems from './galleryItems.js';
+import galleryItems from "./galleryItems.js";
 
-const jsGalerry = document.querySelector('.js-gallery')
-const createPhotoByUrl = galleryItems.map(elem => {
-    const readyLi = document.createElement('li');
-    readyLi.classList.add("gallery__item");
-    const createRefWithHighQuality = document.createElement('a');
-    createRefWithHighQuality.setAttribute("href",elem.original);
-    createRefWithHighQuality.classList.add('gallery__link');
-    readyLi.appendChild(createRefWithHighQuality);
-    const cretePhotoLitle = document.createElement('img');
-    cretePhotoLitle.classList.add('gallery__image')
-    cretePhotoLitle.setAttribute("src",elem.preview);
-    cretePhotoLitle.setAttribute("data-source",elem.original);
-    cretePhotoLitle.setAttribute('alt',elem.description)
-    createRefWithHighQuality.appendChild(cretePhotoLitle);
-    readyLi.appendChild(createRefWithHighQuality);
-    return readyLi;
-})
-jsGalerry.append(...createPhotoByUrl);
-console.log(jsGalerry);
+const jsGallery = document.querySelector(".js-gallery");
 
+const createPhotoByUrl = galleryItems.map((elem, i) => {
+  const readyLi = document.createElement("li");
+  readyLi.classList.add("gallery__item");
+  const createRefWithHighQuality = document.createElement("a");
+  createRefWithHighQuality.setAttribute("href", elem.original);
+  createRefWithHighQuality.classList.add("gallery__link");
+  readyLi.appendChild(createRefWithHighQuality);
+  const cretePhotoLittle = document.createElement("img");
+  cretePhotoLittle.classList.add("gallery__image");
+  cretePhotoLittle.setAttribute("id", i);
+  cretePhotoLittle.setAttribute("src", elem.preview);
+  cretePhotoLittle.setAttribute("data-source", elem.original);
+  cretePhotoLittle.setAttribute("alt", elem.description);
+  createRefWithHighQuality.appendChild(cretePhotoLittle);
+  readyLi.appendChild(createRefWithHighQuality);
+  return readyLi;
+});
 
-jsGalerry.addEventListener('click', handleClickPhoto);
+const quantityImg = createPhotoByUrl.length - 1;
+let target;
+let id;
 
-function handleClickPhoto(event) {
+const readyDiv = document.querySelector(".js-lightbox");
+const closeSlider = document.querySelector("button");
+const closeByHtml = document.querySelector("html");
+const addContentInSlider = document.querySelector(".lightbox__image");
 
-  let target = event.target;
+const AddPhoto = () => {
+  readyDiv.classList.add("is-open");
+  addContentInSlider.removeAttribute("src");
+  addContentInSlider.removeAttribute("alt");
+  addContentInSlider.setAttribute("src", target.dataset.source);
+  addContentInSlider.setAttribute("alt", target.alt);
+};
 
-  event.preventDefault();
-  const baseEvent = event;
-  const readyDiv = document.querySelector('.js-lightbox');
-  const closeSlider = document.querySelector('button');
-  const closeByHtml = document.querySelector('html');
-  const addContentInSlider = document.querySelector(".lightbox__image");
-  
-  const removeSet = () => {
-    target = event.target;
-    readyDiv.classList.remove('is-open');
-    addContentInSlider.removeAttribute("src");
-    addContentInSlider.removeAttribute("alt");
-  };
+const refreshSetInSlider = () => {
+  const img = document.getElementById(id);
+  addContentInSlider.src = img.dataset.source;
+  addContentInSlider.alt = img.alt;
+};
 
-  const AddPhoto = () => {
-    readyDiv.classList.add('is-open');
-    addContentInSlider.setAttribute("src",target.dataset.source);
-    addContentInSlider.setAttribute("alt",target.alt);
-  };
-
-  const refreshSetInSlider = () => {
-    addContentInSlider.removeAttribute("src");
-    addContentInSlider.removeAttribute("alt");
-    addContentInSlider.setAttribute("src",target.dataset.source);
-    addContentInSlider.setAttribute("alt",target.alt);
-  };
-
-  readyDiv.addEventListener('click', removeSet);
-
-  closeSlider.addEventListener('click', removeSet);
-  
-  if (target.nodeName === "IMG"){
-    AddPhoto();
-    closeByHtml.addEventListener("keyup", event => {
-
-        if(event.code === "Escape"){
-            removeSet();  
-        }
-        if(event.code === "ArrowRight"){
-          refreshSetInSlider();
-          const targetNext = target.parentNode.parentNode.nextSibling.firstChild.firstChild;
-          target = targetNext;
-    if(!target.parentNode.parentNode.nextSibling){
-      target  = target.parentNode.parentNode.parentNode.firstChild.firstChild.firstChild;
+const handleKeyupPhoto = (e) => {
+  if (e.code === "ArrowRight") {
+    if (id === quantityImg) {
+      id = 0;
+      refreshSetInSlider();
+      return;
     }
+    id += 1;
+    refreshSetInSlider();
+  }
 
-        }
-        if(event.code === "ArrowLeft"){
-          const targetPrew = target.parentNode.parentNode.previousSibling.firstChild.firstChild;
-          target = targetPrew;
-          refreshSetInSlider();
-          if(!target.parentNode.parentNode.previousSibling){
-            target  = target.parentNode.parentNode.parentNode.lastChild.lastChild.lastChild;
-          }
-        }
-      });
+  if (e.code === "ArrowLeft") {
+    if (id === 0) {
+      id = quantityImg;
+      refreshSetInSlider();
+      return;
+    }
+    id -= 1;
+    refreshSetInSlider();
   }
 };
 
-// Разбей задание на несколько подзадач:+
-// 1)Создание и рендер разметки по массиву данных и предоставленному шаблону.  +
-// 2)Реализация делегирования на галерее ul.js-gallery и получение url большого изображения   +
-// 3)Открытие модального окна по клику на элементе галереи.    +
-// 4)Подмена значения атрибута src элемента img.lightbox__image.  +
-// 5)Закрытие модального окна по клику на кнопку button[data-action="close-modal"].  +
-// 6))Очистка значения атрибута src элемента img.lightbox__image. Это необходимо для того,    +
-//  чтобы при следующем открытии модального окна, пока грузится изображение, мы не видели предыдущее.
-// Дополнительно
-//  Следующий функционал не обязателен при сдаче задания, но
-//  будет хорошей практикой по работе с событиями.
-// 7) Закрытие модального окна по клику на div.lightbox__overlay. +
-// 8) Закрытие модального окна по нажатию клавиши ESC.  +
-// 9) Пролистывание изображений галереи в открытом модальном окне клавишами "влево" и "вправо". +
+const removeImgAndListener = () => {
+  readyDiv.classList.remove("is-open");
+  closeByHtml.removeEventListener("keyup", handleKeyupPhoto);
+  addContentInSlider.src = "";
+  addContentInSlider.alt = "";
+};
+
+const handleClickPhoto = (e) => {
+  e.preventDefault();
+  target = e.target;
+
+  closeByHtml.addEventListener("keyup", (e) => {
+    if (e.code === "Escape") {
+      return removeImgAndListener();
+    }
+    handleKeyupPhoto(e, removeImgAndListener);
+  });
+  readyDiv.addEventListener("click", removeImgAndListener);
+  closeSlider.addEventListener("click", removeImgAndListener);
+
+  if (target.nodeName !== "IMG") return;
+
+  id = Number(target.id);
+
+  AddPhoto();
+};
+
+jsGallery.append(...createPhotoByUrl);
+
+jsGallery.addEventListener("click", handleClickPhoto);
+
+// Divide exercise on several part and additional tasks : +
+// 1)Create render DOM  by data from array and use done template . +
+// 2)Introduce handle event on ul.js-gallery and get url big img . +
+// 3)Open modal window by click element from gallery . +
+// 4)Change element's src by click  img.lightbox__image. +
+// 5)Close modal window by click button [data-action="close-modal"]. +
+// 6))Clear value attribute "src" in element img.lightbox__image.It require for that +
+//  during next opening modal window when img is downloading ,we do not see previous . +
+// Additional
+//  Next ability are not require for pass task , but
+//  will be excellent experience by work with events .
+// 7) Close modal window by click on div.lightbox__overlay. +
+// 8) Close modal window by tap key ESC from keyboard.  +
+// 9) Swipe gallery images during open modal window pres key  "left" and "right". +
