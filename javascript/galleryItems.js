@@ -1,26 +1,30 @@
 export default [
   {
-    preview: "https://bipbap.ru/wp-content/uploads/2018/06/4.jpg",
-    original: "https://bipbap.ru/wp-content/uploads/2018/06/4.jpg",
+    preview:
+      "https://cdn.pixabay.com/photo/2021/04/21/14/26/woman-6196563__340.jpg",
+    original:
+      "https://cdn.pixabay.com/photo/2021/04/21/14/26/woman-6196563_1280.jpg",
     description: "Hokkaido Flower",
   },
   {
     preview:
-      "https://cdn.pixabay.com/photo/2019/05/14/22/05/container-4203677__340.jpg",
+      "https://cdn.pixabay.com/photo/2021/01/10/12/00/road-5904909__340.jpg",
     original:
-      "https://cdn.pixabay.com/photo/2019/05/14/22/05/container-4203677_1280.jpg",
+      "https://cdn.pixabay.com/photo/2021/01/10/12/00/road-5904909_1280.jpg",
     description: "Container Haulage Freight",
   },
   {
-    preview: "https://bipbap.ru/wp-content/uploads/2018/06/933502364.jpg",
-    original: "https://bipbap.ru/wp-content/uploads/2018/06/933502364.jpg",
+    preview:
+      "https://cdn.pixabay.com/photo/2021/04/24/05/41/beach-6203278__340.jpg",
+    original:
+      "https://cdn.pixabay.com/photo/2021/04/24/05/41/beach-6203278_1280.jpg",
     description: "Aerial Beach View",
   },
   {
     preview:
-      "https://cdn.pixabay.com/photo/2016/11/18/16/19/flowers-1835619__340.jpg",
+      "https://cdn.pixabay.com/photo/2021/02/06/14/24/lavanttal-5988332__340.jpg",
     original:
-      "https://cdn.pixabay.com/photo/2016/11/18/16/19/flowers-1835619_1280.jpg",
+      "https://cdn.pixabay.com/photo/2021/02/06/14/24/lavanttal-5988332_1280.jpg",
     description: "Flower Blooms",
   },
   {

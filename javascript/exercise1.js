@@ -1,5 +1,5 @@
 import galleryItems from "./galleryItems.js";
-const jsGallery = document.querySelector(".js-gallery");
+
 const createPhotoByUrl = galleryItems.map((elem, i) => {
   const readyLi = document.createElement("li");
   readyLi.classList.add("gallery__item");
@@ -17,13 +17,17 @@ const createPhotoByUrl = galleryItems.map((elem, i) => {
   readyLi.appendChild(createRefWithHighQuality);
   return readyLi;
 });
-const quantityImg = createPhotoByUrl.length - 1;
+
 let target;
 let id;
+const quantityImg = createPhotoByUrl.length - 1;
+
+const jsGallery = document.querySelector(".js-gallery");
 const readyDiv = document.querySelector(".js-lightbox");
 const closeSlider = document.getElementById("button-close");
 const closeByHtml = document.querySelector("html");
 const addContentInSlider = document.querySelector(".lightbox__image");
+
 const AddPhoto = () => {
   readyDiv.classList.add("is-open");
   addContentInSlider.removeAttribute("src");
@@ -32,15 +36,18 @@ const AddPhoto = () => {
   addContentInSlider.setAttribute("alt", target.alt);
   jsGallery.classList.add("js-gallery--active");
   const oneImg = 100 / (quantityImg + 1);
+
   Object.values(document.querySelectorAll(".gallery__item")).map((el) => {
     el.classList.remove("gallery__item");
     el.classList.add("gallery__item--active");
     el.style.maxHeight = `${oneImg * 0.84}%`;
     el.style.maxWidth = `${oneImg / 1.8}%`;
   });
+
   Object.values(document.querySelectorAll(".gallery__image")).map((el) => {
     el.classList.add("gallery__image--active");
   });
+
   Object.values(document.querySelectorAll(".gallery__item--active")).map(
     (el) => {
       if (el.classList.contains("gallery__item--active--checked")) {
@@ -49,15 +56,18 @@ const AddPhoto = () => {
     }
   );
   const activeImg = document.getElementsByClassName(id)[0];
+  const img = document.getElementById(id);
+
+  addContentInSlider.src = img.dataset.source;
+  addContentInSlider.alt = img.alt;
   activeImg.classList.add("gallery__item--active--checked--orange");
+
   setTimeout(() => {
     activeImg.classList.remove("gallery__item--active--checked--orange");
     activeImg.classList.add("gallery__item--active--checked");
-    const img = document.getElementById(id);
-    addContentInSlider.src = img.dataset.source;
-    addContentInSlider.alt = img.alt;
   }, 100);
 };
+
 const toggleArrowFill = (btn) => {
   setTimeout(() => {
     btn[0].style.fill = "#42a325";
@@ -69,19 +79,23 @@ const refreshSetInSlider = (changeId) => {
     .getElementsByClassName(changeId)[0]
     .classList.remove("gallery__item--active--checked");
 
+  const img = document.getElementById(id);
   const activeImg = document.getElementsByClassName(id)[0];
+
+  addContentInSlider.src = img.dataset.source;
+  addContentInSlider.alt = img.alt;
   activeImg.classList.add("gallery__item--active--checked--orange");
+
   setTimeout(() => {
     activeImg.classList.remove("gallery__item--active--checked--orange");
     activeImg.classList.add("gallery__item--active--checked");
-    const img = document.getElementById(id);
-    addContentInSlider.src = img.dataset.source;
-    addContentInSlider.alt = img.alt;
   }, 100);
 };
+
 const arrowLeft = () => {
   const left = document.getElementsByClassName("overlay__svg--left");
   left[0].style.fill = "#f88d02";
+
   if (id === 0) {
     id = quantityImg;
     refreshSetInSlider(0);
@@ -92,9 +106,11 @@ const arrowLeft = () => {
   refreshSetInSlider(id + 1);
   toggleArrowFill(left);
 };
+
 const arrowRight = () => {
   const right = document.getElementsByClassName("overlay__svg--right");
   right[0].style.fill = "#f88d02";
+
   if (id === quantityImg) {
     id = 0;
     refreshSetInSlider(quantityImg);
@@ -105,17 +121,20 @@ const arrowRight = () => {
   refreshSetInSlider(id - 1);
   toggleArrowFill(right);
 };
+
 function handleKeyupPhoto(e) {
   if (e.code === "Escape") return removeKeyupListener();
   if (e.code === "ArrowLeft") return arrowLeft();
   if (e.code === "ArrowRight") return arrowRight();
 }
+
 function removeKeyupListener() {
   jsGallery.classList.remove("js-gallery--active");
   document
     .getElementsByClassName(id)[0]
     .classList.remove("gallery__item--active--checked");
   readyDiv.classList.remove("is-open");
+
   Object.values(document.querySelectorAll(".gallery__item--active")).map(
     (el) => {
       el.classList.remove("gallery__item--active");
@@ -124,18 +143,24 @@ function removeKeyupListener() {
       el.style.maxWidth = `100%`;
     }
   );
+
   Object.values(document.querySelectorAll(".gallery__image")).map((el) => {
     el.classList.remove("gallery__image--active");
   });
+
   closeByHtml.removeEventListener("keyup", handleKeyupPhoto, false);
 }
+
 function handleClickByReadyDiv(e) {
-  const target = e.target.id;
-  if (target === "left") return arrowLeft();
-  if (target === "right") return arrowRight();
+  const { id, classList } = e.target;
+  console.log(e.target.classList[0]);
+  if (id === "left") return arrowLeft();
+  if (id === "right") return arrowRight();
+  if (classList[0] === "lightbox__image") return;
   removeKeyupListener(e);
   readyDiv.removeEventListener("click", handleClickByReadyDiv);
 }
+
 function handleClickPhoto(e) {
   e.preventDefault();
   target = e.target;
@@ -146,6 +171,7 @@ function handleClickPhoto(e) {
   id = Number(target.id);
   AddPhoto();
 }
+
 jsGallery.append(...createPhotoByUrl);
 jsGallery.addEventListener("click", handleClickPhoto);
 
