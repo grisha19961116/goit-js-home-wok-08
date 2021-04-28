@@ -8,22 +8,20 @@
     <link rel="stylesheet" href="./css/style.css" />
   </head>
   <body>
-    <ul class="gallery js-gallery"></ul>
     <div class="lightbox js-lightbox">
       <div class="lightbox__overlay"></div>
-      <button id="left" type="button" class="lightbox__overlay__btn--left">
-        <svg id="left" class="overlay__svg overlay__svg--left">
-          <use id="left" href="./images/left-arrow.svg#Capa_1"></use>
-        </svg>
-      </button>
-      <button id="right" type="button" class="lightbox__overlay__btn--right">
-        <svg id="right" class="overlay__svg overlay__svg--right">
-          <use id="right" href="./images/right-arrow.svg#Capa_2"></use>
-        </svg>
-      </button>
-
       <div class="lightbox__content">
         <img class="lightbox__image" />
+        <button id="left" type="button" class="lightbox__overlay__btn--left">
+          <svg id="left" class="overlay__svg overlay__svg--left">
+            <use id="left" href="./images/left-arrow.svg#Capa_1"></use>
+          </svg>
+        </button>
+        <button id="right" type="button" class="lightbox__overlay__btn--right">
+          <svg id="right" class="overlay__svg overlay__svg--right">
+            <use id="right" href="./images/right-arrow.svg#Capa_2"></use>
+          </svg>
+        </button>
       </div>
       <button
         id="button-close"
@@ -32,6 +30,7 @@
         data-action="close-lightbox"
       ></button>
     </div>
+    <ul class="gallery js-gallery"></ul>
   </body>
   <script src="../javascript/exercise1.js" type="module"></script>
 </html>
